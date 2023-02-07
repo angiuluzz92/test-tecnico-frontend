@@ -1,0 +1,11 @@
+.container {
+    padding: 20px;
+    background-color: #e4ac85;
+}
+
+mat-toolbar {
+    background-color: #de3535;
+    position: sticky;
+    top: 1px;
+    z-index: 1000;
+}

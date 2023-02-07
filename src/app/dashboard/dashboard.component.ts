@@ -11,6 +11,7 @@ import { Call } from './models/call';
 })
 export class DashboardComponent implements OnInit {
 
+  showGraphs: boolean = false;
   dataInizio: any;
   dataFine: any;
 
@@ -22,8 +23,6 @@ export class DashboardComponent implements OnInit {
 
   numtempoResiduoMedio: number = 0;
   tempoResiduoMedio: string = "Tempo Residuo Medio: " + this.numtempoResiduoMedio;
-
-  elencoUltimeChiamate: string = "ELENCO ULTIME CHIAMATE:";
 
   elencoChiamate: Call[] = [];
   graficoChiamate: any[] = [];
@@ -58,7 +57,7 @@ export class DashboardComponent implements OnInit {
     this.tempoResiduoMedio = "Tempo Residuo Medio: " + this.numtempoResiduoMedio;
     
     this.buildGraphs(retrieveData);
-
+    this.showGraphs = true;
     this.elencoChiamate = retrieveData.calls.reverse().slice(0, 10);
   }
 
