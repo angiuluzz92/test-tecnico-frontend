@@ -1,0 +1,112 @@
+<mat-toolbar style="background-color: #de3535;">
+    <span>Dashboard</span>
+  </mat-toolbar>
+  
+  <div class="container">
+    <mat-grid-list cols="3" rowHeight="3:1">
+      <mat-grid-tile [colspan]="3">
+        <mat-form-field appearance="fill" style="margin-right: 10px;">
+          <mat-label>Data Inizio</mat-label>
+          <input matInput [ngxMatDatetimePicker]="pickerInizio" [(ngModel)]="dataInizio">
+          <mat-datepicker-toggle matIconSuffix [for]="$any(pickerInizio)"></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker #pickerInizio></ngx-mat-datetime-picker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" style="margin-right: 10px;">
+          <mat-label>Data Fine</mat-label>
+          <input matInput [ngxMatDatetimePicker]="pickerFine" [(ngModel)]="dataFine">
+          <mat-datepicker-toggle matIconSuffix [for]="$any(pickerFine)"></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker #pickerFine></ngx-mat-datetime-picker>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" [disabled]="dataInizio == null || dataFine == null" (click)="getServerDataMock()">Estrai Dati</button>
+      </mat-grid-tile>
+  
+      <mat-grid-tile>
+        <mat-form-field>
+          <input readonly style="font-size: smaller;" matInput [(ngModel)]="chiamateTotali">
+        </mat-form-field>
+      </mat-grid-tile>
+  
+      <mat-grid-tile>
+        <mat-form-field>
+          <input readonly style="font-size: smaller;" matInput [(ngModel)]="erroriTotali">
+        </mat-form-field>
+      </mat-grid-tile>
+  
+      <mat-grid-tile>
+        <mat-form-field>
+          <input readonly style="font-size: smaller;" matInput [(ngModel)]="tempoResiduoMedio">
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+          <h1>Chiamate Nel Tempo</h1>
+      </mat-grid-tile>
+  
+      <mat-grid-tile>
+          <h1>Percentuale Errori</h1>
+      </mat-grid-tile>
+  
+      <mat-grid-tile>
+          <h1>Distribuzione Valori</h1>
+      </mat-grid-tile>
+  
+      <mat-grid-tile [rowspan]="2">
+          <ngx-charts-line-chart 
+          [results]="graficoChiamate"
+          [showYAxisLabel]="true"
+          [xAxis]="true"
+          [yAxis]="true"
+          yAxisLabel="Conteggio"
+          ></ngx-charts-line-chart>
+      </mat-grid-tile>
+  
+      <mat-grid-tile [rowspan]="2">
+        <ngx-charts-pie-chart 
+        [results]="graficoPercentualeErrori"
+        ></ngx-charts-pie-chart>
+      </mat-grid-tile>
+  
+      <mat-grid-tile [rowspan]="2">
+        <ngx-charts-bar-vertical 
+        [results]="graficoDistribuzioneValori"
+        [showYAxisLabel]="true"
+        [showXAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        yAxisLabel="Conteggio"
+        xAxisLabel="Valori"
+        ></ngx-charts-bar-vertical>
+      </mat-grid-tile>
+
+      <br>
+      <br>
+  
+      <mat-grid-tile [colspan]= 3 [rowspan]="2">
+        <mat-form-field style="flex: auto; margin: 10%;">
+          <br>
+          <textarea matInput
+          readonly
+          cdkTextareaAutosize
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="3"
+          [value]="elencoUltimeChiamate"></textarea>
+          <ul>
+            <li *ngFor="let chiamata of elencoChiamate; let i = index">
+              Log {{ i + 1 }} : {{ chiamata.data }}; Tempo di risposta: {{chiamata.responseTime}}; IsError: {{chiamata.error}}
+            </li>
+          </ul>
+        </mat-form-field>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+  
+  <!-- Add styles for the dashboard -->
+  <style>
+    .container {
+      padding: 20px;
+      background-color: #e4ac85;
+    }
+  </style>
+  
